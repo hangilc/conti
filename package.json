@@ -1,0 +1,15 @@
+{
+  "name": "conti",
+  "version": "1.0.0",
+  "description": "A primitive JavaScript asynchronous function manager.",
+  "repository": "git@github.com:hangilc/conti.git",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "asynchronous"
+  ],
+  "author": "Hangil Chang",
+  "license": "MIT"
+}
