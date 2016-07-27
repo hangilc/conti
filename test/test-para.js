@@ -175,3 +175,111 @@ describe("Testing execPara", function(){
 	})
 
 });
+
+describe("Testing forEachPara", function(){
+	it("empty", function(done){
+		conti.forEachPara([], function(ele, done){
+			done("unexpected funcall");
+		}, function(err){
+			expect(err).undefined;
+			done();;
+		})
+	});
+
+	it("single", function(done){
+		var server = new Server();
+		var out = [];
+		conti.forEachPara([1], function(ele, done){
+			server.request(1, function(err, result){
+				if( err ){
+					done(err);
+					return;
+				}
+				out.push(result);
+				done();
+			})
+		}, function(err){
+			if( err ){
+				done(err);
+				return;
+			}
+			expect(out).eql([1]);
+			done();
+		});
+		server.handle(1, [undefined, 1]);
+	});
+	
+	it("single (error)", function(done){
+		var server = new Server();
+		var out = [];
+		conti.forEachPara([1], function(ele, done){
+			server.request(1, function(err, result){
+				if( err ){
+					done(err);
+					return;
+				}
+				out.push(result);
+				done();
+			})
+		}, function(err){
+			expect(err).eql("error");
+			expect(out).eql([]);
+			done();
+		});
+		server.handle(1, ["error"])
+	});
+
+	it("three", function(done){
+		var server = new Server();
+		var inseq = [];
+		var out = [];
+		conti.forEachPara([1,2,3], function(ele, done){
+			inseq.push(ele);
+			server.request(ele, function(err, result){
+				if( err ){
+					done(err);
+					return;
+				}
+				out.push(result);
+				done();
+			});
+		}, function(err){
+			if( err ){
+				done(err);
+				return;
+			}
+			expect(inseq).eql([1,2,3]);
+			expect(out).eql([30, 20, 10]);
+			done();
+		});
+		server.handle(3, [undefined, 30]);
+		server.handle(2, [undefined, 20]);
+		server.handle(1, [undefined, 10]);
+	});
+
+	it("three (error)", function(done){
+		var server = new Server();
+		var inseq = [];
+		var out = [];
+		conti.forEachPara([1,2,3], function(ele, done){
+			inseq.push(ele);
+			server.request(ele, function(err, result){
+				if( err ){
+					done(err);
+					return;
+				}
+				out.push(result);
+				done();
+			});
+		}, function(err){
+			expect(err).eql("error");
+			expect(inseq).eql([1,2,3]);
+			expect(out).eql([30]);
+			done();
+		});
+		server.handle(3, [undefined, 30]);
+		server.handle(2, ["error", 20]);
+		server.handle(1, [undefined, 10]);
+	});
+
+});
