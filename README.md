@@ -62,7 +62,7 @@ conti.forEach([1,2,3], function(ele, done){
 
 ### parallel forEach
 ```javascript
-conti.forEach([1,2,3], function(ele, done){
+conti.forEachPara([1,2,3], function(ele, done){
   setTimeout(done, ele*1000);
 }, function(err){
   if( err ){
