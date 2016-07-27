@@ -24,6 +24,10 @@ exports.execPara = function(funs, done){
 	funs = funs.slice();
 	var n = funs.length;
 	var no_more = false;
+	if( funs.length === 0 ){
+		done();
+		return;
+	}
 	funs.forEach(function(f){
 		if( no_more ){
 			return;
@@ -45,7 +49,7 @@ exports.execPara = function(funs, done){
 	})
 }
 
-function iterExecForEach(i, arr, fn, done){
+function iterForEach(i, arr, fn, done){
 	if( i >= arr.length ){
 		done();
 		return;
@@ -55,12 +59,12 @@ function iterExecForEach(i, arr, fn, done){
 			done(err);
 			return;
 		}
-		iterExecForEach(i+1, arr, fn, done);
+		iterForEach(i+1, arr, fn, done);
 	})
 }
 
 exports.forEach = function(arr, fn, done){
 	arr = arr.slice();
-	iterExecForEach(0, arr, fn, done);
+	iterForEach(0, arr, fn, done);
 };
 
