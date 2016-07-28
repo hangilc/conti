@@ -1,6 +1,6 @@
 {
   "name": "conti",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A primitive JavaScript asynchronous function manager.",
   "repository": "git@github.com:hangilc/conti.git",
   "main": "index.js",

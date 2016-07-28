@@ -119,8 +119,9 @@ Queue.prototype.run = function(){
 	var fn = entry.fn;
 	var cb = entry.cb;
 	var self = this;
-	fn(function(err){
-		cb(err);
+	fn(function(){
+		var args = [].slice.call(arguments);
+		cb.apply(undefined, args);
 		if( self.queue.length > 0 && self.queue[0] === entry ){
 			self.queue.shift();
 			self.run();
