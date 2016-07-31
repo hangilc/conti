@@ -97,6 +97,44 @@ exports.forEachPara = function(arr, fn, done){
 	});
 };
 
+function Queue(){
+	this.queue = [];
+}
+
+Queue.prototype.push = function(fn, cb){
+	this.queue.push({
+		fn: fn,
+		cb: cb
+	});
+	if( this.queue.length === 1 ){
+		this.run();
+	}
+}
+
+Queue.prototype.run = function(){
+	if( this.queue.length === 0 ){
+		return;
+	}
+	var entry = this.queue[0];
+	var fn = entry.fn;
+	var cb = entry.cb;
+	var self = this;
+	fn(function(){
+		var args = [].slice.call(arguments);
+		cb.apply(undefined, args);
+		if( self.queue.length > 0 && self.queue[0] === entry ){
+			self.queue.shift();
+			self.run();
+		}
+	})
+}
+
+var theQueue = new Queue();
+
+exports.enqueue = function(fn, cb){
+	theQueue.push(fn, cb);
+};
+
 exports.mapPara = function(arr, fn, cb){
 	var index = 0;
 	var dataArr = arr.map(function(value){

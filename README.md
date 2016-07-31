@@ -72,5 +72,25 @@ conti.forEachPara([1,2,3], function(ele, done){
 });
 ```
 
+### dynamically add to a list of asynchronous calls that are invoked sequentially
+
+I found this function to be useful while coding for single page applications.
+
+```javascript
+conti.enqueue(function(done){
+  console.log("first start");
+  setTimeout(done, 1000);
+}, function(err){ console.log("first end"); });
+conti.enqueue(function(done){
+  console.log("second start");
+  setTimeout(done, 1000);
+}, function(err){ console.log("second end"); });
+
+// first start
+// first end (after 1 second)
+// second start
+// second end (after another 1 second)
+```
+
 ## License
 This software is released under the MIT License, see [LICENSE.txt](LICENSE.txt).
