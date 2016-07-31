@@ -72,6 +72,20 @@ conti.forEachPara([1,2,3], function(ele, done){
 });
 ```
 
+### parallel map
+```javascript
+conti.mapPara([1,2,3], function(ele, cb){
+  setTimeout(function(){
+    cb(undefined, ele*10);
+  }, 1000);
+}, function(err, result){
+  if( err ){
+    throw new Exception(err);
+  }
+  console.log(result, "after 1 second"); // result is [10, 20, 30]
+})
+```
+
 ### dynamically add to a list of asynchronous calls that are invoked sequentially
 
 I found this function to be useful while coding for single page applications.
