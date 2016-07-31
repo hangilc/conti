@@ -97,3 +97,30 @@ exports.forEachPara = function(arr, fn, done){
 	});
 };
 
+exports.mapPara = function(arr, fn, cb){
+	var index = 0;
+	var dataArr = arr.map(function(value){
+		return {
+			index: index++,
+			value: value
+		}
+	});
+	var retArr = [];
+	exports.forEachPara(dataArr, function(data, done){
+		var value = fn(data.value, function(err, result){
+			if( err ){
+				done(err);
+				return;
+			}
+			retArr[data.index] = result;
+			done();
+		});
+	}, function(err){
+		if( err ){
+			cb(err);
+			return;
+		}
+		cb(undefined, retArr);
+	})
+};
+
