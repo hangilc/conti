@@ -1,5 +1,7 @@
 "use strict";
 
+(function(exports){
+
 function iterExec(i, funs, done){
 	if( i >= funs.length ){
 		done();
@@ -162,3 +164,38 @@ exports.mapPara = function(arr, fn, cb){
 	})
 };
 
+exports.fetch = function(url, opt, op, cb){
+	fetch(url, opt)
+	.then(function(response){
+		if( response.ok ){
+			response[op]()
+			.then(function(result){
+				cb(undefined, result);
+			})
+			.catch(function(err){
+				cb(err.message);
+			})
+		} else { 
+			response.text()
+			.then(function(text){
+				cb(text);
+			})
+			.catch(function(err){
+				cb(err.message);
+			})
+		}
+	})
+	.catch(function(err){
+		cb(err.message);
+	})
+}
+
+exports.fetchJson = function (url, opt, cb){
+	exports.fetch(url, opt, "json", cb);
+}
+
+exports.fetchText = function (url, opt, cb){
+	exports.fetch(url, opt, "text", cb);
+}
+
+})(typeof exports !== "undefined" ? exports : (window.conti = {}));

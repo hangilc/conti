@@ -1,7 +1,9 @@
 "use strict";
 
-var conti = require("../index");
-var expect = require("chai").expect;
+var conti = (typeof conti !== "undefined") ? conti : require("../index");
+var expect = (typeof expect !== "undefined") ? expect : require("chai").expect;
+
+(function(){
 
 function Server(){
 	this.store = {};
@@ -73,3 +75,5 @@ describe("Testing mapPara", function(){
 		server.handle(1, [undefined, 10]);
 	});
 });
+
+})();
