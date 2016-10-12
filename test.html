@@ -11,6 +11,11 @@
 	<script>
 		var expect = chai.expect;
 	</script>
+	<script>
+		function setImmediate(fn){
+			setTimeout(fn, 0);
+		}
+	</script>
 	<script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
 	<script>mocha.setup('bdd')</script>
 	<script src="index.js"></script>

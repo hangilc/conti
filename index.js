@@ -191,11 +191,20 @@ exports.fetch = function(url, opt, op, cb){
 }
 
 exports.fetchJson = function (url, opt, cb){
-	exports.fetch(url, opt, "json", cb);
+	exports.fetch(url, opt, "json", function(err, result){
+		console.log("json cb");
+		setImmediate(function(){
+			cb(err, result);
+		});
+	});
 }
 
 exports.fetchText = function (url, opt, cb){
-	exports.fetch(url, opt, "text", cb);
+	exports.fetch(url, opt, "text", function(err, result){
+		setImmediate(function(){
+			cb(err, result);
+		});
+	});
 }
 
 })(typeof exports !== "undefined" ? exports : (window.conti = {}));
