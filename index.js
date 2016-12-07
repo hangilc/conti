@@ -192,17 +192,23 @@ exports.fetch = function(url, opt, op, cb){
 
 exports.fetchJson = function (url, opt, cb){
 	exports.fetch(url, opt, "json", function(err, result){
-		setImmediate(function(){
+		setTimeout(function(){
 			cb(err, result);
-		});
+		}, 0);
+//		setImmediate(function(){
+//			cb(err, result);
+//		});
 	});
 }
 
 exports.fetchText = function (url, opt, cb){
 	exports.fetch(url, opt, "text", function(err, result){
-		setImmediate(function(){
+		setTimeout(function(){
 			cb(err, result);
-		});
+		}, 0);
+//		setImmediate(function(){
+//			cb(err, result);
+//		});
 	});
 }
 
